@@ -8,7 +8,7 @@
   <div>
     <label for="hero-pet">Choose a pet: </label>
     <select id="hero-pet" [(ngModel)]="hero.pet">
-      <option *ngFor="let pet of pets" [value]="pet">{{pet}}</option>
+      <option *ngFor="let pet of pets" [value]="pet.name">{{pet.name}}</option>
     </select>
   </div>
   <button type="button" (click)="goBack()">go back</button>

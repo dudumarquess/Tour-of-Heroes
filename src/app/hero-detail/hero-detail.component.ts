@@ -5,6 +5,7 @@ import { Location } from '@angular/common';
 import { Hero } from '../hero';
 import { HeroService } from '../hero.service';
 import { PetService } from '../pet.service';
+import { Pet } from '../pet';
 
 @Component({
   selector: 'app-hero-detail',
@@ -13,7 +14,8 @@ import { PetService } from '../pet.service';
 })
 export class HeroDetailComponent implements OnInit {
   hero: Hero | undefined;
-  pets: string[] = []
+  pets: Pet[] = [];
+  selectedPet: Pet | undefined;
 
   constructor(
     private route: ActivatedRoute,
@@ -24,13 +26,18 @@ export class HeroDetailComponent implements OnInit {
 
   ngOnInit(): void {
     this.getHero();
-    this.pets = this.petService.getPets();
+    this.getPets();
   }
 
   getHero(): void {
     const id = parseInt(this.route.snapshot.paramMap.get('id')!, 10);
     this.heroService.getHero(id)
       .subscribe(hero => this.hero = hero);
+  }
+
+  getPets(): void {
+    this.petService.getPets()
+      .subscribe(pets => this.pets = pets); // 🔹 Agora usamos subscribe corretamente
   }
 
   goBack(): void {
