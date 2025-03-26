@@ -10,7 +10,8 @@ import { Pet } from './pet';
 })
 export class PetService {
 
-  private petsUrl = 'api/pets'
+  private petsUrl = 'http://localhost:3000/api/pets'
+  private petUrl = 'http://localhost:3000/api/pet'
   private httpOptions = {
     headers: new HttpHeaders({ 'Content-Type': 'application/json' })
   }
@@ -28,7 +29,7 @@ export class PetService {
 
   addPet(petName: string): Observable<Pet> {
     const pet: Pet = { name: petName };  // Cria um novo pet com o nome fornecido
-    return this.http.post<Pet>(this.petsUrl, pet, this.httpOptions).pipe(
+    return this.http.post<Pet>(this.petUrl, pet, this.httpOptions).pipe(
       tap((newPet: Pet) => console.log(`added pet: ${newPet.name}`)),  // Loga quando um pet é adicionado
       catchError(this.handleError<Pet>('addPet'))  // Trata erros
     );
@@ -41,7 +42,7 @@ export class PetService {
     };
   }
   updatePet(pet: Pet): Observable<any> {
-      return this.http.put(this.petsUrl, pet, this.httpOptions).pipe(
+      return this.http.put(this.petUrl, pet, this.httpOptions).pipe(
         tap(_ => this.log(`updated pet name=${pet.name}`)),
         catchError(this.handleError<any>('updateHero'))
       );

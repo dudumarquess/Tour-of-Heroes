@@ -30,10 +30,16 @@ export class HeroDetailComponent implements OnInit {
   }
 
   getHero(): void {
-    const id = parseInt(this.route.snapshot.paramMap.get('id')!, 10);
-    this.heroService.getHero(id)
-      .subscribe(hero => this.hero = hero);
+    const id = this.route.snapshot.paramMap.get('id'); // Retorna string ou null
+    if (id) {
+      // A conversão para string é desnecessária, já que o id já é do tipo string
+      this.heroService.getHero(id).subscribe(hero => this.hero = hero);
+    } else {
+      console.error("ID do herói não encontrado na rota");
+    }
   }
+  
+  
 
   getPets(): void {
     this.petService.getPets()
@@ -45,9 +51,23 @@ export class HeroDetailComponent implements OnInit {
   }
 
   save(): void {
-    if (this.hero) {
+    if (this.hero && this.selectedPet) {
+      // Agora passamos apenas o _id do pet, não o objeto inteiro
+      this.hero.petId = this.selectedPet; 
+      
+      // Envia o herói com o petId para o backend
       this.heroService.updateHero(this.hero)
-        .subscribe(() => this.goBack());
+        .subscribe({
+          next: () => {
+            this.goBack();
+          },
+          error: (error) => {
+            console.error('Erro ao salvar herói:', error);
+          }
+        });
     }
   }
+  
+
+  
 }

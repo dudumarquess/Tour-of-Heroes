@@ -1,6 +1,7 @@
+import { Pet } from './pet'; 
 
 export interface Hero {
-    id: number;
+    _id?: string;
     name: string;
-    pet?: string;
-  }
+    petId?: Pet;  // petId agora é do tipo Pet
+}
