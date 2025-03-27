@@ -52,21 +52,15 @@ export class HeroDetailComponent implements OnInit {
 
   save(): void {
     if (this.hero && this.selectedPet) {
-      // Agora passamos apenas o _id do pet, não o objeto inteiro
-      this.hero.petId = this.selectedPet; 
+      this.hero.petId = this.selectedPet; // Associando o pet ao herói
       
-      // Envia o herói com o petId para o backend
-      this.heroService.updateHero(this.hero)
-        .subscribe({
-          next: () => {
-            this.goBack();
-          },
-          error: (error) => {
-            console.error('Erro ao salvar herói:', error);
-          }
-        });
+      this.heroService.updateHero(this.hero).subscribe({
+        next: () => this.goBack(),
+        error: (error) => console.error('Erro ao salvar herói:', error)
+      });
     }
   }
+  
   
 
   

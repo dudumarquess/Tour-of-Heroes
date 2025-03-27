@@ -7,10 +7,13 @@
   </div>
   <div>
     <label for="hero-pet">Choose a pet: </label>
-    <select id="hero-pet" [(ngModel)]="hero.petId">
-      <option *ngFor="let pet of pets" [value]="pet.name">{{pet.name}}</option>
+    <select id="hero-pet" [(ngModel)]="selectedPet">
+      <option *ngFor="let pet of pets" [ngValue]="pet">{{pet.name}}</option>
     </select>
   </div>
   <button type="button" (click)="goBack()">go back</button>
   <button type="button" (click)="save()">save</button>
+  <div *ngIf="hero.petId">
+    <p>Hero's Pet: {{hero.petId.name}}</p>
+  </div>
 </div>

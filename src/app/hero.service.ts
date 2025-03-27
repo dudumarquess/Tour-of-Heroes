@@ -88,13 +88,20 @@ export class HeroService {
     );
   }
 
-  /** PUT: update the hero on the server */
-  updateHero(hero: Hero): Observable<any> {
-    return this.http.put(`${this.heroUrl}/${hero._id}`, hero, this.httpOptions).pipe(
-      tap(_ => this.log(`updated hero id=${hero._id}`)),
-      catchError(this.handleError<any>('updateHero'))
+    /** PUT: update the hero on the server */
+  updateHero(hero: Hero): Observable<Hero> {
+    // Certifica-se de enviar apenas o ID do pet
+    const heroToUpdate = {
+      name: hero.name,
+      petId: hero.petId ? hero.petId._id : undefined, // Enviar apenas o _id do pet
+    };
+
+    return this.http.put<Hero>(`${this.heroUrl}/${hero._id}`, heroToUpdate, this.httpOptions).pipe(
+      tap(() => this.log(`updated hero id=${hero._id}`)),
+      catchError(this.handleError<Hero>('updateHero'))
     );
   }
+
   
 
   /**
